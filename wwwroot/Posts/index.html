@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>False Facebook</title>
+</head>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="Posts/js/Posts_API.js"></script>
+    <script>
+
+        let manager = new PostsManager(render);
+
+        function render(items)
+        {
+            console.log(items);
+            $("body").empty();
+            for (const item of items) {
+                $("body").append(`
+                    <p>${item.Id}</p>
+                    <p>${item.Title}</p>
+                    <p>${item.Text}</p>
+                    <p>${item.Category}</p>
+                    <p>${item.Creation}</p>
+                    <img style='background-image: url("${item.Image}"); background-size: cover; background-position: center;' />
+                    <hr>
+                `);
+            }
+        }
+
+        //manager.setCategories(["ATT"]);
+    </script>
+</body>
+</html>
