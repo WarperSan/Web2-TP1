@@ -122,11 +122,8 @@ class PostsManager {
         if (this.#categories !== undefined)
             query.push("category=" + this.#categories.join("|"));
 
-        if (this.#words !== undefined) {
-            let wordQuery = "*(" + this.#words.join("|") + ")*";
-            query.push("title=" + wordQuery);
-            //query.push("text=" + wordQuery);
-        }
+        if (this.#keywords !== undefined)
+            query.push("keywords=" + this.#keywords);
 
         let queryString = query.length === 0 ? undefined : query.join("&");
 
@@ -150,11 +147,15 @@ class PostsManager {
         return this.#updateRender(true);
     }
 
-    #words = undefined;
+    #keywords = undefined;
 
     /** Sets the search terms of the search and updates the items */
     setSearch(searchString) {
-        this.#words = searchString.split(' ');
+
+        if (searchString === '')
+            this.#keywords = undefined;
+        else
+            this.#keywords = searchString;
         return this.#updateRender(true);
     }
 

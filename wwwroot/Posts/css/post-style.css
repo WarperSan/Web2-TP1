@@ -1,0 +1,28 @@
+
+
+.post-header {
+    display: flex;
+}
+
+.post-category {
+    flex: 9;
+
+    color: #1F21A9;
+    font-weight: bold;
+}
+
+.post-title {
+    font-weight: bolder;
+    font-size: 1.5em;
+
+    display: block;
+    width: 100%;
+    overflow-wrap: break-word;
+}
+
+.post-image {
+    background-size: cover;
+    background-position: center;
+
+    height: 100%;
+}

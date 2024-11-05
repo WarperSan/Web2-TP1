@@ -3,29 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>False Facebook</title>
-</head>
-<body>
+
+    <link rel="stylesheet" href="Posts/css/post-style.css" />
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="Posts/js/Posts_API.js"></script>
+</head>
+<body>
+    <label>
+        <input id="search-text" type="text" placeholder="Search..."/>
+    </label>
+    <div id="posts-parent">
+
+    </div>
+
     <script>
 
         let manager = new PostsManager(render);
 
-        function render(items)
-        {
-            console.log(items);
-            $("body").empty();
+        $("#search-text").on('keydown', function (e) {
+            if (e.originalEvent.keyCode !== 13)
+                return;
+
+            manager.setSearch($(this).val());
+        });
+
+        function render(items) {
+            //console.log(items);
+            $("#posts-parent").empty();
             for (const item of items) {
-                $("body").append(`
+                $("#posts-parent").append(`
+                    <div class="post">
+                        <!-- HEADER -->
+                        <div class="post-header">
+                            <span class="post-category">${item.Category}</span>
+                            <div style="flex: 1;"><!-- BUTTONS --></div>
+                        </div>
+                        <span class="post-title">${item.Title}</span>
+                        <img class="post-image" style="background-image: url('${item.Image}');" />
+                    </div>
                     <p>${item.Id}</p>
                     <p>${item.Title}</p>
                     <p>${item.Text}</p>
                     <p>${item.Category}</p>
                     <p>${item.Creation}</p>
-                    <img style='background-image: url("${item.Image}"); background-size: cover; background-position: center;' />
                     <hr>
-                `);
+                    `);
             }
         }
 
