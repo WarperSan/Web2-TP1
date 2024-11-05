@@ -69,4 +69,3 @@ export default class CachedRequestsManager {
         return false;
     }
 }
-
