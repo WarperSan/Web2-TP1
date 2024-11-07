@@ -1,0 +1,33 @@
+#post-search-features {
+    display: flex;
+    background-color: #aaa;
+    padding: 0.5em;
+    gap: 1em;
+}
+
+#post-search-features > * {
+    display: inline;
+}
+
+/* CATEGORIES */
+.post-categories-dropdown {
+    position: relative;
+}
+
+.post-categories-dropdown .content {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    opacity: 0;
+
+    width: fit-content;
+    padding: 1em;
+
+    user-select: none !important; /* Prevent user from selecting text */
+    margin: 0; /* Remove default margin */
+}
+
+.post-categories-dropdown .content li {
+    list-style: none; /* Remove default list marker */
+    text-wrap: nowrap; /* Force the text on one line */
+}

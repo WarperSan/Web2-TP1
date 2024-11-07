@@ -71,8 +71,9 @@ class Posts_API {
 
 class PostsManager {
 
-    constructor(renderCallback) {
-        this.#renderCallback = renderCallback;
+    constructor(itemRender, categoryRender) {
+        this.#itemRender = itemRender;
+        this.#categoryRender = categoryRender;
 
         setInterval(() => {
             // noinspection JSIgnoredPromiseFromCall
@@ -80,13 +81,16 @@ class PostsManager {
         }, 1000);
     }
 
-    #renderCallback = undefined;
-    #lastETag = undefined;
+    #itemRender = undefined;
+    #itemsETag = undefined;
     #loadedItems = undefined;
+
+    #categoryRender = undefined;
+    #loadedCategories = undefined;
 
     async #updateRender(forced) {
         // If no callback given, skip
-        if (!this.#renderCallback)
+        if (!this.#itemRender)
             return false;
 
         // Get ETag
@@ -97,30 +101,39 @@ class PostsManager {
             return false;
 
         // If not forced and the items didn't change, skip
-        if (!forced && etag === this.#lastETag)
+        if (!forced && etag === this.#itemsETag)
             return false;
 
         // Get items
-        let items = await this.getItems();
+        let items = await this.#getItems();
 
         // Render items
-        this.#renderCallback(items);
+        this.#itemRender(items);
 
         // Update ETag
-        this.#lastETag = etag;
+        this.#itemsETag = etag;
+
+        // If callback given, update
+        if (this.#categoryRender) {
+            // Get categories
+            let categories = await this.#getCategories();
+
+            // Render categories
+            this.#categoryRender(categories);
+        }
 
         return true;
     }
 
     /** Fetches all the items that meet the current conditions */
-    async getItems() {
+    async #getItems() {
         // Build Query
         let query = [
             "sort=creation,desc",
         ];
 
         if (this.#categories !== undefined)
-            query.push("category=" + this.#categories.join("|"));
+            query.push("category=(" + this.#categories.join("|") + ")");
 
         if (this.#keywords !== undefined)
             query.push("keywords=" + this.#keywords);
@@ -137,6 +150,30 @@ class PostsManager {
             this.#loadedItems = items.data;
 
         return this.#loadedItems;
+    }
+
+    /** Fetches all the categories */
+    async #getCategories() {
+        // Fetch categories
+        let categories = await Posts_API.Get("fields=category&sort=category");
+
+        // If errored, clear all
+        if (categories === null) {
+            this.#loadedCategories = undefined;
+            this.#categories = undefined;
+            return undefined;
+        }
+
+        // Compile categories
+        this.#loadedCategories = [...new Set(categories.data.map(i => i.Category))];
+
+        // Remove invalid categories
+        if (this.#categories)
+            this.#categories = this.#categories.filter(c => this.#loadedCategories.indexOf(c) !== -1);
+        else
+            this.#categories = undefined;
+
+        return this.#loadedCategories;
     }
 
     #categories = undefined;
