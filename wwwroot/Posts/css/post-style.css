@@ -1,5 +1,9 @@
 #posts-parent {
-    margin-top: 3em;
+    margin-top: 4em;
+}
+
+.post{
+    height: max-content;
 }
 
 .post-header {
@@ -8,15 +12,16 @@
 
 .post-category {
     flex: 9;
-
-    color: #1F21A9;
+    margin-bottom: 5px;
+    color: #004bd6;
     font-weight: bold;
+    user-select: none;
 }
 
 .post-title {
     font-weight: bolder;
     font-size: 1.5em;
-
+    margin-bottom: 20px;
     display: block;
     width: 100%;
     overflow-wrap: break-word;
@@ -25,25 +30,25 @@
 .post-image {
     background-size: cover;
     background-position: center;
-
-    aspect-ratio: 1;
-    width: 50px;
-    /*width: 100%;*/ /* COMMENTED FOR TESTING */
+    width: 100%;
+    height: 40vh;
 }
 
 .post-date {
     display: block;
     color: #aaa;
+    font-size: 0.8em;
+    margin-bottom: 20px;
+    user-select: none;
 }
 
 .post-text {
     display: block;
     width: 100%;
 
-    max-height: 5em; /* Show max 5 lines */
     font-size: 1em;
 
     /* Cut off when limit reached */
-    text-overflow: ellipsis;
-    overflow: hidden;
+    /* text-overflow: ellipsis;
+    overflow: hidden; */
 }

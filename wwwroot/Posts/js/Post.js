@@ -32,7 +32,7 @@ function renderItem(item, atEnd = true) {
         <div class="post" data-id="${item.Id}">
             <!-- HEADER -->
             <div class="post-header">
-                <span class="post-category">${item.Category}</span>
+                <span class="post-category">${item.Category.toUpperCase()}</span>
                 <div style="flex: 1;"><!-- BUTTONS --></div>
             </div>
             <span class="post-title">${item.Title}</span>
@@ -61,7 +61,7 @@ function convertToFrenchDate(numeric_date) {
         }
     );
 
-    return weekday + " le " + date.toLocaleDateString("fr-FR", options) + " @ " + date.toLocaleTimeString("fr-FR");
+    return weekday + ", " + date.toLocaleDateString("fr-FR", options) + " - " + date.toLocaleTimeString("fr-FR");
 }
 
 /** Renders all the given categories */
