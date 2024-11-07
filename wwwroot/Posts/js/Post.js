@@ -26,8 +26,32 @@ function renderItems(items) {
 }
 
 /** Renders the given item */
-function renderItem(item, atEnd = true) {
+// function renderItem(item, atEnd = true) {
 
+//     let element = $(`
+//         <div class="post" data-id="${item.Id}">
+//             <!-- HEADER -->
+//             <div class="post-header">
+//                 <span class="post-category">${item.Category.toUpperCase()}</span>
+//                 <div style="flex: 1;"><!-- BUTTONS --></div>
+//             </div>
+//             <span class="post-title">${item.Title}</span>
+//             <img class="post-image" style="background-image: url('${item.Image}');"  alt=""/>
+//             <span class="post-date">${convertToFrenchDate(item.Creation)}</span>
+//             <span class="post-text">TEXTE: ${item.Text}</span>
+//             <div class="read-more-container">
+//                 <button type="button" class="btn btn-light" onclick="readMore(this)">Lire la suite</button>
+//             </div>
+//         </div>
+//         <hr>
+//     `);
+
+//     if (atEnd)
+//         $(POST_PARENT).append(element);
+//     else
+//         $(POST_PARENT).prepend(element);
+// }
+function renderItem(item, atEnd = true) {
     let element = $(`
         <div class="post" data-id="${item.Id}">
             <!-- HEADER -->
@@ -36,9 +60,12 @@ function renderItem(item, atEnd = true) {
                 <div style="flex: 1;"><!-- BUTTONS --></div>
             </div>
             <span class="post-title">${item.Title}</span>
-            <img class="post-image" style="background-image: url('${item.Image}');"  alt=""/>
+            <img class="post-image" style="background-image: url('${item.Image}');" alt=""/>
             <span class="post-date">${convertToFrenchDate(item.Creation)}</span>
             <span class="post-text">TEXTE: ${item.Text}</span>
+            <div class="read-more-container">
+                <button type="button" class="btn btn-light" onclick="readMore(this)">Lire la suite</button>
+            </div>
         </div>
         <hr>
     `);
@@ -47,6 +74,27 @@ function renderItem(item, atEnd = true) {
         $(POST_PARENT).append(element);
     else
         $(POST_PARENT).prepend(element);
+
+    // Check if the text is overflowing
+    let postText = element.find('.post-text');
+    let readMoreButton = element.find('.read-more-container button');
+    
+    if (postText[0].scrollHeight <= postText.innerHeight()) {
+        readMoreButton.hide();
+    }
+}
+function readMore(button) {
+    let postText = $(button).closest('.post').find('.post-text');
+    
+    // Toggle the "expanded" class
+    postText.toggleClass('expanded');
+    
+    // Change button text based on current state
+    if (postText.hasClass('expanded')) {
+        $(button).text('Lire moins');  // Show less
+    } else {
+        $(button).text('Lire la suite');  // Show more
+    }
 }
 
 /** Par Nicolas Chourot */
