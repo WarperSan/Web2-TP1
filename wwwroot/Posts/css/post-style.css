@@ -1,4 +1,6 @@
-
+#posts-parent {
+    margin-top: 3em;
+}
 
 .post-header {
     display: flex;
@@ -24,5 +26,24 @@
     background-size: cover;
     background-position: center;
 
-    height: 100%;
+    aspect-ratio: 1;
+    width: 50px;
+    /*width: 100%;*/ /* COMMENTED FOR TESTING */
+}
+
+.post-date {
+    display: block;
+    color: #aaa;
+}
+
+.post-text {
+    display: block;
+    width: 100%;
+
+    max-height: 5em; /* Show max 5 lines */
+    font-size: 1em;
+
+    /* Cut off when limit reached */
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

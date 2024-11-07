@@ -6,13 +6,27 @@
 
     <link rel="stylesheet" href="Posts/css/post-style.css" />
     <link rel="stylesheet" href="Posts/css/post-search-style.css" />
+    <link rel="stylesheet" href="Posts/css/loader.css" />
+
+    <style>
+        /* FOR GENERAL CSS */
+        html, body {
+            margin: 0;
+        }
+    </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="Posts/js/Posts_API.js"></script>
+
     <script src="Posts/js/CategoryDropDown.js"></script>
+    <script src="Posts/js/Post.js"></script>
 </head>
 <body>
+    <!-- LOADER -->
+    <div class="loader-container"><div class="loader"></div></div>
+
+    <!-- SEARCH FEATURES -->
     <div id="post-search-features">
         <label class="post-search-bar">
             <input id="search-text" type="text" placeholder="Search..."/>
@@ -29,72 +43,15 @@
     </div>
 
     <script>
-        let manager = new PostsManager(renderItems, renderCategories);
-        let checkedCategories = {};
-
         $("#search-text").on('keydown', function (e) {
             if (e.originalEvent.keyCode !== 13)
                 return;
 
-            manager.setSearch($(this).val());
-        });
-
-        function renderItems(items) {
-            //console.log(items);
-
+            $(".loader-container").show();
             let parent = $("#posts-parent");
             parent.empty();
-
-            for (const item of items) {
-
-                if (checkedCategories[item.Category] === undefined)
-                    checkedCategories[item.Category] = true;
-
-                parent.append(`
-                    <div class="post">
-                        <!-- HEADER -->
-                        <div class="post-header">
-                            <span class="post-category">${item.Category}</span>
-                            <div style="flex: 1;"><!-- BUTTONS --></div>
-                        </div>
-                        <span class="post-title">${item.Title}</span>
-                        <img class="post-image" style="background-image: url('${item.Image}');"  alt=""/>
-                    </div>
-                    <p>${item.Id}</p>
-                    <p>${item.Title}</p>
-                    <p>${item.Text}</p>
-                    <p>${item.Category}</p>
-                    <p>${item.Creation}</p>
-                    <hr>
-                `);
-            }
-        }
-
-        function renderCategories(categories) {
-            //console.log(categories);
-
-            let parent = $(".post-categories-dropdown .content");
-            parent.empty();
-
-            for (const category of categories) {
-                let checked = checkedCategories[category] !== false;
-
-                parent.append(`
-                    <li>
-                        <label>
-                            <input type="checkbox" value="${category}" ${checked ? "checked" : "" } /> ${category}
-                        </label>
-                    </li>
-                `);
-            }
-
-            $(".post-categories-dropdown .content li input").change(function () {
-                checkedCategories[$(this).val()] = $(this).is(":checked");
-
-                let keys = Object.keys(checkedCategories).filter(key => checkedCategories[key]);
-                manager.setCategories(keys);
-            });
-        }
+            manager.setSearch($(this).val());
+        });
     </script>
 </body>
 </html>

@@ -1,4 +1,10 @@
 #post-search-features {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+
+
     display: flex;
     background-color: #aaa;
     padding: 0.5em;

@@ -1,11 +1,12 @@
-[{
-  "Id": "f5795080-4468-11ee",
-  "Title": "Ceci est le titre du post",
-  "Text": "Ceci est le texte du post",
-  "Category": "Université",
-  "Image": "player.png",
-  "Creation": 10
-},
+[
+  {
+    "Id": "f5795080-4468-11ee",
+    "Title": "Ceci est le titre du post",
+    "Text": "Ceci est le texte du post",
+    "Category": "Université",
+    "Image": "player.png",
+    "Creation": 10
+  },
   {
     "Id": "5b156ce0-46c0-11ee",
     "Title": "Deuxième titre",
@@ -21,4 +22,5 @@
     "Category": "E-Shop",
     "Image": "player3.png",
     "Creation": 102032
-  }]
+  }
+]

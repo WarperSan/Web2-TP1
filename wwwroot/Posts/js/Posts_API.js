@@ -13,7 +13,7 @@ class Posts_API {
                     resolve(data.getResponseHeader('ETag'));
                 },
                 error: (xhr) => {
-                    console.log(xhr);
+                    console.log(`Error while calling '${this.API_URL()}' (HEAD): ` + xhr.status);
                     resolve(null);
                 }
             });
@@ -189,6 +189,7 @@ class PostsManager {
     /** Sets the search terms of the search and updates the items */
     setSearch(searchString) {
 
+        searchString = searchString.trim();
         if (searchString === '')
             this.#keywords = undefined;
         else
