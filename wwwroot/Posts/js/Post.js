@@ -5,6 +5,7 @@ const CATEGORY_ADDED_DEFAULT = false;
 
 let manager = new PostsManager(renderItems, renderCategories);
 let checkedCategories = {};
+let hasLoaded = false;
 
 /** Renders all the given items */
 function renderItems(items) {
@@ -14,13 +15,14 @@ function renderItems(items) {
     for (const item of items) {
         // If category not added yet, add
         if (checkedCategories[item.Category] === undefined)
-            checkedCategories[item.Category] = CATEGORY_ADDED_DEFAULT;
+            checkedCategories[item.Category] = !hasLoaded || CATEGORY_ADDED_DEFAULT;
 
         renderItem(item);
     }
 
     // Hide loader
     $(".loader-container").hide();
+    hasLoaded = true;
 }
 
 /** Renders the given item */
