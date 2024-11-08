@@ -21,12 +21,10 @@
     <script src="Posts/js/Posts_API.js"></script>
 
     <script src="Posts/js/CategoryDropDown.js"></script>
-    <script src="Posts/js/Post.js"></script>
+    <script src="js/PageManager.js"></script>
+    <script src="Posts/js/appUI.js" defer></script>
 </head>
 <body>
-    <!-- LOADER -->
-    <div class="loader-container"><div class="loader"></div></div>
-
     <!-- SEARCH FEATURES -->
     <div id="post-search-features">
         <label class="post-search-bar">
@@ -42,17 +40,5 @@
     <div class="container" id="posts-parent">
 
     </div>
-
-    <script>
-        $("#search-text").on('keydown', function (e) {
-            if (e.originalEvent.keyCode !== 13)
-                return;
-
-            $(".loader-container").show();
-            let parent = $("#posts-parent");
-            parent.empty();
-            manager.setSearch($(this).val());
-        });
-    </script>
 </body>
 </html>
