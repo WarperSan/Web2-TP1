@@ -13,11 +13,17 @@
         /* FOR GENERAL CSS */
         html, body {
             margin: 0;
+            height: 100vh;
+            width: 100vw;
         }
     </style>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    à
     <script src="Posts/js/Posts_API.js"></script>
 
     <script src="Posts/js/CategoryDropDown.js"></script>
@@ -37,8 +43,23 @@
         </div>
     </div>
 
-    <div class="container" id="posts-parent">
-
+    <div class="container" id="posts-scroll">
+        <div class="container" id="posts-parent">
+            <div id="sample" class="post" data-id="">
+                <!-- HEADER -->
+                <div class="post-header">
+                    <span class="post-category"></span>
+                    <div style="flex: 1;"><!-- BUTTONS --></div>
+                </div>
+                <span class="post-title"></span>
+                <img class="post-image" alt=""/>
+                <span class="post-date"></span>
+                <span class=""></span>
+                <div class="read-more-container">
+                    <button type="button" class="btn btn-light">Lire la suite</button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

@@ -1,11 +1,168 @@
+/* TITLE */
+const TITLE_ID = "#actionTitle";
+
+function setTitle(title) {
+    $(TITLE_ID).text(title);
+}
+
+/* POST FORM */
+const FORM_PARENT_ID = "#formParent";
+const POST_FORM_ID = "#postForm";
+const POST_FORM_CANCEL_ID = "#postCancelForm";
+
+/** Fetches the data of the given form */
+function getFormData(form) {
+    const removeTag = new RegExp("(<[a-zA-Z0-9]+>)|(</[a-zA-Z0-9]+>)", "g");
+    let jsonObject = {};
+    $.each(form.serializeArray(), (index, control) => {
+        jsonObject[control.name] = control.value.replace(removeTag, "");
+    });
+    return jsonObject;
+}
+
+function renderPostForm(post = undefined) {
+    hidePosts();
+
+    let isCreating = post === undefined;
+
+    if (isCreating)
+        post = createPost();
+
+    let parent = $(FORM_PARENT_ID);
+    parent.empty();
+
+    parent.append(`
+        <form class="form" id="${POST_FORM_ID.substring(1)}">
+            <!-- POST ID -->
+            <input type="hidden" name="Id" value="${post.Id}" />
+            
+            <!-- POST CREATION -->
+            <input type="hidden" name="Creation" value="${Date.now()}" />
+
+            <!-- POST TITLE -->
+            <label for="Title" class="form-label">Titre </label>
+            <input 
+                class="form-control Alpha"
+                name="Title" 
+                id="Title" 
+                placeholder="Titre"
+                required
+                value="${post.Title || ""}"
+            />
+            
+            <!-- POST CATEGORY -->
+            <label for="Category" class="form-label">Catégorie </label>
+            <input 
+                class="form-control"
+                name="Category"
+                id="Category"
+                placeholder="Catégorie"
+                required
+                value="${post.Category || ""}"
+            />
+            
+            <!-- POST IMAGE -->
+            <label for="Image" class="form-label">Image </label>
+            <div
+                class='imageUploader' 
+                newImage='${isCreating}' 
+                controlId='Image' 
+                imageSrc='${post.Image || "Posts2/images/no-image.png"}' 
+                waitingImage="Posts2/Loading_icon.gif">
+            </div>
+            
+            <!-- POST TEXT -->
+            <label for="Text" class="form-label">Texte </label>
+            <textarea
+                class="form-control"
+                name="Text"
+                id="Text"
+                placeholder="Texte"
+                required>${post.Text || ""}</textarea>
+            
+            <br>
+            <!-- BUTTONS -->
+            <input type="submit" value="Enregistrer" class="btn btn-primary">
+            <input type="button" value="Annuler" id="${POST_FORM_CANCEL_ID.substring(1)}" class="btn btn-secondary">
+        </form>
+    `);
+    parent.show();
+
+    initImageUploaders();
+    initFormValidation();
+
+    $(POST_FORM_ID).on("submit", async function (event) {
+        event.preventDefault();
+        let post = getFormData($(this));
+        post.Image = "player3.png";
+
+        let result = await Posts_API.Save(post, isCreating);
+
+        if (result.isError) {
+            renderError("Une erreur est survenue!");
+            return;
+        }
+
+        showPosts();
+
+        console.log(result);
+
+        await pageManager.update(false);
+        pageManager.scrollToElem(result.Id);
+
+        await compileCategories();
+    });
+
+    $(POST_FORM_CANCEL_ID).on("click", showPosts);
+}
+
 /* POSTS */
-const POST_PARENT = "#posts-parent";
+const SCROLL_PANEL_ID = "#scrollPanel";
+const ITEMS_PANEL_ID = "#itemsPanel";
+const CREATE_BUTTON_ID = "#createPost";
+const ABORT_BUTTON_ID = "#abort";
+
 const POST_CLASS = ".post";
 const POST_TEXT = ".post-text";
 const POST_READ_MORE = ".read-more-container button";
 let hasLoaded = false;
 
-async function fetchPosts(queryString) {
+/** Creates an empty post object */
+function createPost() {
+    return {
+        Id: "",
+        Category: "",
+        Creation: 0,
+        Image: "",
+        Text: "",
+        Title: ""
+    };
+}
+
+/** Shows all the posts */
+function showPosts() {
+    setTitle("Fil des nouvelles");
+
+    $(SCROLL_PANEL_ID).show();
+    $(CREATE_BUTTON_ID).show();
+
+    $(ABORT_BUTTON_ID).hide();
+    $(FORM_PARENT_ID).hide();
+
+    startPeriodicRefresh();
+}
+
+/** Hides all the posts */
+function hidePosts() {
+    $(SCROLL_PANEL_ID).hide();
+    $(CREATE_BUTTON_ID).hide();
+    $(ABORT_BUTTON_ID).hide();
+
+    stopPeriodicRefresh();
+}
+
+/** Fetches and renders all the posts */
+async function renderPosts(queryString) {
     // Build Query
     let query = [
         "sort=creation,desc",
@@ -52,7 +209,7 @@ async function fetchPosts(queryString) {
 /** Renders the given post */
 function renderPost(post) {
     let element = $(`
-        <div class="post" data-id="${post.Id}">
+        <div class="post" id="${post.Id}">
             <!-- HEADER -->
             <div class="post-header">
                 <span class="post-category">${post.Category.toUpperCase()}</span>
@@ -68,7 +225,7 @@ function renderPost(post) {
         </div>
     `);
 
-    $(POST_PARENT).append(element);
+    $(ITEMS_PANEL_ID).append(element);
 
     // Check if the text is overflowing
     let postText = element.find(POST_TEXT);
@@ -174,7 +331,8 @@ function renderCategory(category) {
 const KEYWORD_ID = "#search-text";
 let keywords = undefined;
 
-$(KEYWORD_ID).on('keydown', function (e) {
+/** Sets the current search keywords */
+function onSearchEnter(e) {
     if (e.originalEvent.keyCode !== 13)
         return;
 
@@ -185,7 +343,7 @@ $(KEYWORD_ID).on('keydown', function (e) {
         keywords = searchString;
 
     pageManager.update(true);
-});
+}
 
 /* PAGE MANAGER */
 let pageManager = undefined;
@@ -235,6 +393,7 @@ const WAITING_ID = "post-waiting-loader";
 const WAITING_TIMEOUT_MS = 2000;
 let waitingTimeout = undefined;
 
+/** Adds the waiting logo */
 function addWaitingLogo() {
     removeWaitingLogo();
 
@@ -246,6 +405,7 @@ function addWaitingLogo() {
     }, WAITING_TIMEOUT_MS);
 }
 
+/** Removes the waiting logo */
 function removeWaitingLogo() {
     // Clear existing timeout
     clearTimeout(waitingTimeout);
@@ -255,10 +415,41 @@ function removeWaitingLogo() {
     $("#" + WAITING_ID).remove();
 }
 
+/* ERROR FORM */
+const ERROR_CONTAINER_ID = "#errorContainer";
+
+/** Renders the given error */
+function renderError(message) {
+    hidePosts();
+    $(FORM_PARENT_ID).empty();
+    setTitle("Erreur du serveur...");
+
+    let content = $(`<div>${message}</div>`);
+
+    let container = $(ERROR_CONTAINER_ID);
+    container.append(content);
+    container.show();
+}
+
 /* START */
-pageManager = new PageManager("posts-scroll", POST_PARENT.substring(1), {
-    width: $("#sample").outerWidth(),
-    height: $("#sample").outerHeight()
-}, fetchPosts);
+let sample = renderPost(createPost());
+pageManager = new PageManager(
+    SCROLL_PANEL_ID.substring(1),
+    ITEMS_PANEL_ID.substring(1),
+    {
+        width: sample.outerWidth(),
+        height: sample.outerHeight()
+    },
+    renderPosts
+);
+sample.remove();
+
+// Set listeners
+$(CREATE_BUTTON_ID).on("click", renderPostForm);
+$(ABORT_BUTTON_ID).on("click", showPosts);
+$(KEYWORD_ID).on('keydown', onSearchEnter);
+
 compileCategories();
+
+showPosts();
 startPeriodicRefresh();
