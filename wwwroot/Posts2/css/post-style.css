@@ -1,7 +1,6 @@
 .post{
     height: max-content;
-    width: 90%;
-    margin: 1em auto;
+    margin: 1em;
 }
 
 .post-header {
