@@ -5,7 +5,7 @@
     "Text": "Ceci est le texte du post",
     "Category": "Université",
     "Image": "player.png",
-    "Creation": 10
+    "Creation": 1731432753426
   },
   {
     "Id": "5b156ce0-46c0-11ee",
@@ -24,35 +24,11 @@
     "Creation": 102032
   },
   {
-    "Id": "4495fe80-a060-11ef-82e4-67e7b5250822",
-    "Category": "ATTs",
-    "Creation": 233,
-    "Image": "player3.png",
-    "Text": "abccbd3",
-    "Title": "Ceci est un test"
-  },
-  {
-    "Id": "54a09790-a060-11ef-82e4-67e7b5250822",
-    "Category": "ATTs",
-    "Creation": 233,
-    "Image": "player3.png",
-    "Text": "abccbd3",
-    "Title": "Ceci est un test2"
-  },
-  {
-    "Id": "8e3ad6a0-a060-11ef-82e4-67e7b5250822",
-    "Category": "ATTs",
-    "Creation": 233,
-    "Image": "player3.png",
-    "Text": "abccbd3",
-    "Title": "Ceci est un test4"
-  },
-  {
-    "Id": "ad1035c0-a060-11ef-82e4-67e7b5250822",
-    "Category": "ATTs",
-    "Creation": 233,
-    "Image": "player3.png",
-    "Text": "abccbd3",
-    "Title": "Ceci est un test45"
+    "Id": "1db608c0-a11c-11ef-8141-f1527a787497",
+    "Creation": 1731432753426,
+    "Title": "asdasdasd",
+    "Category": "asdasdasd",
+    "Image": "1db656e0-a11c-11ef-8141-f1527a787497.png",
+    "Text": "asdasdasd"
   }
 ]

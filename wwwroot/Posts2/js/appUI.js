@@ -94,7 +94,6 @@ function renderPostForm(post = undefined) {
     $(POST_FORM_ID).on("submit", async function (event) {
         event.preventDefault();
         let post = getFormData($(this));
-        post.Image = "player3.png";
 
         let result = await Posts_API.Save(post, isCreating);
 
