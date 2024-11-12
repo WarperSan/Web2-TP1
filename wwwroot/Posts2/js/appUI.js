@@ -448,7 +448,9 @@ pageManager = new PageManager(
 sample.remove();
 
 // Set listeners
-$(CREATE_BUTTON_ID).on("click", renderPostForm);
+$(CREATE_BUTTON_ID).on("click", function () {
+    renderPostForm();
+});
 $(ABORT_BUTTON_ID).on("click", showPosts);
 $(KEYWORD_ID).on('keydown', onSearchEnter);
 
