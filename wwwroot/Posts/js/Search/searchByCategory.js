@@ -1,6 +1,9 @@
 /* CATEGORIES */
-const CATEGORY_PARENT = ".post-categories-dropdown .content";
+const CATEGORY_PARENT = "#categoryDropdown";
 const CATEGORY_ADDED_DEFAULT = false;
+const CATEGORY_CHECKED_CLASS = "fa-check";
+const CATEGORY_UNCHECKED_CLASS = "fa-fw";
+
 let loadedCategories = undefined;
 let selectedCategories = undefined;
 let checkedCategories = {};
@@ -37,23 +40,64 @@ function renderCategory(category) {
     let checked = checkedCategories[category] !== false;
 
     let element = $(`
-        <li>
-            <label>
-                <input type="checkbox" value="${category}" ${checked ? "checked" : ""} /> ${category}
-            </label>
-        </li>
+        <div class="dropdown-item menuItemLayout category" id="allCatCmd" data-checked="${checked}" data-name="${category}">
+            <i class="menuIcon fa ${checked ? CATEGORY_CHECKED_CLASS : CATEGORY_UNCHECKED_CLASS} mx-2"></i> ${category}
+        </div>
     `);
 
-    element.change(function () {
-        checkedCategories[$(this).val()] = $(this).is(":checked");
+    element.on("click", function () {
 
-        let keys = Object.keys(checkedCategories).filter(key => checkedCategories[key]);
+        let checked = $(this).data("checked");
+        checked = !checked;
+        $(this).data("checked", checked);
+        checkedCategories[$(this).data("name")] = checked;
 
-        $(".loader-container").show();
-        manager.setCategories(keys);
+        let icon = $(this).children(".menuIcon");
+        if (checked) {
+            icon.addClass(CATEGORY_CHECKED_CLASS);
+            icon.removeClass(CATEGORY_UNCHECKED_CLASS);
+        } else {
+            icon.removeClass(CATEGORY_CHECKED_CLASS);
+            icon.addClass(CATEGORY_UNCHECKED_CLASS);
+        }
 
+        selectedCategories = Object.keys(checkedCategories).filter(key => checkedCategories[key]);
+
+        addWaitingLogo();
         pageManager.reset();
     });
 
     $(CATEGORY_PARENT).append(element);
+}
+
+function updateDropDownMenu() {
+    let DDMenu = $("#DDMenu");
+    let selectClass = selectedCategory === "" ? "fa-check" : "fa-fw";
+    DDMenu.empty();
+    DDMenu.append($(`
+        <div class="dropdown-item menuItemLayout" id="allCatCmd">
+            <i class="menuIcon fa ${selectClass} mx-2"></i> Toutes les catégories
+        </div>
+        `));
+    DDMenu.append($(`<div class="dropdown-divider"></div>`));
+    categories.forEach(category => {
+        selectClass = selectedCategory === category ? "fa-check" : "fa-fw";
+        DDMenu.append($(`
+            <div class="dropdown-item menuItemLayout category" id="allCatCmd">
+                <i class="menuIcon fa ${selectClass} mx-2"></i> ${category}
+            </div>
+        `));
+    });
+    $('#allCatCmd').on("click", function () {
+        showBookmarks();
+        selectedCategory = "";
+        updateDropDownMenu();
+        pageManager.reset();
+    });
+    $('.category').on("click", function () {
+        showBookmarks();
+        selectedCategory = $(this).text().trim();
+        updateDropDownMenu();
+        pageManager.reset();
+    });
 }
