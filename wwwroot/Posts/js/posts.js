@@ -1,3 +1,16 @@
+/* POSTS */
+const SCROLL_PANEL_ID = "#scrollPanel";
+const ITEMS_PANEL_ID = "#itemsPanel";
+const CREATE_BUTTON_ID = "#createPost";
+const EDIT_BUTTON_ID = ".editPost";
+const DELETE_BUTTON_ID = "#deletePost";
+const ABORT_BUTTON_ID = "#abort";
+
+const POST_CLASS = ".post";
+const POST_TEXT = ".post-text";
+const POST_READ_MORE = ".read-more-container button";
+let hasLoaded = false;
+
 /** Creates an empty post object */
 function createPost() {
     return {
@@ -87,7 +100,7 @@ function renderPost(post) {
             <div class="post-header">
                 <span class="post-category">${post.Category.toUpperCase()}</span>
                 <div style="flex: 1;">
-                    <i class="cmdIcon fa-solid fa-pen" id="editPost" title="Modifier cette nouvelle"></i>
+                    <i class="cmdIcon fa-solid fa-pen editPost" title="Modifier cette nouvelle"></i>
                     <i class="cmdIcon fa-solid fa-x" id="deletePost" title="Effacer cette nouvelle"></i>
                 </div>
             </div>
@@ -101,6 +114,30 @@ function renderPost(post) {
         </div>
         <hr>
     `);
+
+    element.find(EDIT_BUTTON_ID).on("click", async function () {
+        let response = await Posts_API.Get("Id=" + post.Id);
+        renderPostForm(response.data[0]);
+    });
+
+    element.find(DELETE_BUTTON_ID).on("click", function () {
+        bootbox.confirm({
+            message: `Voulez-vous supprimer cette nouvelle? <br> <b>${post.Title}</b>`,
+            buttons: {
+                confirm: {
+                    label: 'Confirmer',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Annuler',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                console.log('This was logged in the callback: ' + result);
+            }
+        });
+    });
 
     $(ITEMS_PANEL_ID).append(element);
 
