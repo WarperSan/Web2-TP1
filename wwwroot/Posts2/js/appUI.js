@@ -36,7 +36,7 @@ function renderPostForm(post = undefined) {
             <!-- POST ID -->
             <input type="hidden" name="Id" value="${post.Id}" />
             
-            <!-- POST CREATION -->
+            <!-- POST CREATION DATE-->
             <input type="hidden" name="Creation" value="${Date.now()}" />
 
             <!-- POST TITLE -->
@@ -213,7 +213,10 @@ function renderPost(post) {
             <!-- HEADER -->
             <div class="post-header">
                 <span class="post-category">${post.Category.toUpperCase()}</span>
-                <div style="flex: 1;"><!-- BUTTONS --></div>
+                <div style="flex: 1;">
+                    <i class="cmdIcon fa-solid fa-pen" id="editPost" title="Modifier cette nouvelle"></i>
+                    <i class="cmdIcon fa-solid fa-x" id="deletePost" title="Effacer cette nouvelle"></i>
+                </div>
             </div>
             <span class="post-title">${post.Title}</span>
             <img class="post-image" style="background-image: url('${post.Image}');" alt=""/>
