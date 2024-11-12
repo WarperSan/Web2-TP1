@@ -218,11 +218,12 @@ function renderPost(post) {
             <span class="post-title">${post.Title}</span>
             <img class="post-image" style="background-image: url('${post.Image}');" alt=""/>
             <span class="post-date">${convertToFrenchDate(post.Creation)}</span>
-            <span class="${POST_TEXT.substring(1)}">TEXTE: ${post.Text}</span>
+            <span class="${POST_TEXT.substring(1)}">${post.Text}</span>
             <div class="read-more-container">
                 <button type="button" class="btn btn-light">Lire la suite</button>
             </div>
         </div>
+        <hr>
     `);
 
     $(ITEMS_PANEL_ID).append(element);
@@ -233,11 +234,13 @@ function renderPost(post) {
 
     // If overflowing, add click
     if (postText[0].scrollHeight > postText.innerHeight()) {
+        postText.addClass("full");
         readMoreButton.click(function () {
             let postText = $(this).closest(POST_CLASS).find(POST_TEXT);
 
             // Toggle the "expanded" class
             postText.toggleClass('expanded');
+            postText.toggleClass('full');
 
             // Change button text based on current state
             if (postText.hasClass('expanded')) {
