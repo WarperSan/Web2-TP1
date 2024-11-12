@@ -1,9 +1,6 @@
-#posts-scroll {
-    margin-top: 4em;
-}
-
 .post{
     height: max-content;
+    margin: 1em;
 }
 
 .post-header {
@@ -60,7 +57,7 @@
 }
 
 /* Add ellipsis */
-.post-text::after {
+.post-text:is(.full)::after {
     content: "...";
     position: absolute;
     bottom: 0;
@@ -74,3 +71,7 @@
     content: "";
 }
 
+/* READ MORE CONTAINER */
+.read-more-container button {
+    box-shadow: black 0 0 2px 1px;
+}

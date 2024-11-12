@@ -1,65 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>False Facebook</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fil des nouvelles</title>
 
-    <link rel="stylesheet" href="Posts/css/post-style.css" />
-    <link rel="stylesheet" href="Posts/css/post-search-style.css" />
-    <link rel="stylesheet" href="Posts/css/loader.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    
-    <style>
-        /* FOR GENERAL CSS */
-        html, body {
-            margin: 0;
-            height: 100vh;
-            width: 100vw;
-        }
-    </style>
+    <link rel="icon" href="Posts/posts_logo.png">
+    <link rel="stylesheet" href="Posts/css/app.css">
+    <link rel="stylesheet" href="Posts/css/loader.css">
+    <link rel="stylesheet" href="Posts/css/post-style.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-    à
-    <script src="Posts/js/Posts_API.js"></script>
-
-    <script src="Posts/js/CategoryDropDown.js"></script>
-    <script src="js/PageManager.js"></script>
-    <script src="Posts/js/appUI.js" defer></script>
+    <!--
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    -->
 </head>
+
 <body>
-    <!-- SEARCH FEATURES -->
-    <div id="post-search-features">
-        <label class="post-search-bar">
-            <input id="search-text" type="text" placeholder="Search..."/>
-        </label>
+    <!-- MAIN BODY -->
+    <div id="main">
+        <!-- HEADER -->
+        <div id="header">
 
-        <div class="post-categories-dropdown">
-            <span class="text">Catégories</span>
-            <ul class="content"></ul>
+            <!-- ICON -->
+            <img src="Posts/posts_logo.png" class="appLogo" alt="" title="Fil des nouvelles">
+
+            <!-- TITLE -->
+            <h4 id="actionTitle">Fil des nouvelles</h4>
+
+            <!-- ACTION BUTTONS -->
+            <i class="cmdIcon fa fa-plus" id="createPost" title="Ajouter une nouvelle"></i>
+            <i class="cmdIcon fa fa-times" id="abort" title="Annuler"></i>
         </div>
-    </div>
 
-    <div class="container" id="posts-scroll">
-        <div class="container" id="posts-parent">
-            <div id="sample" class="post" data-id="">
-                <!-- HEADER -->
-                <div class="post-header">
-                    <span class="post-category"></span>
-                    <div style="flex: 1;"><!-- BUTTONS --></div>
+        <!-- PAGE CONTENT -->
+        <div id="content">
+            <!-- SCROLL CONTENT -->
+            <div id="scrollPanel">
+                <div id="itemsPanel">
+
                 </div>
-                <span class="post-title"></span>
-                <img class="post-image" alt=""/>
-                <span class="post-date"></span>
-                <span class=""></span>
-                <div class="read-more-container">
-                    <button type="button" class="btn btn-light">Lire la suite</button>
-                </div>
+            </div>
+
+            <!-- FORMS -->
+            <div id="forms">
+                <div id="formParent"></div>
+                <div id="errorContainer"></div>
             </div>
         </div>
     </div>
+
+    <!-- SCRIPTS -->
+<!--
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+-->
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="Posts/js/ImageControl.js"></script>
+    <script src="Posts/js/Posts_API.js"></script>
+    <script src="js/pageManager.js"></script>
+    <script src="Posts/js/validation.js"></script>
+    <script src="Posts/js/searchByCategory.js"></script>
+    <script src="Posts/js/postForm.js"></script>
+    <script src="Posts/js/utilities.js"></script>
+    <script src="Posts/js/appUI.js"></script>
 </body>
 </html>
