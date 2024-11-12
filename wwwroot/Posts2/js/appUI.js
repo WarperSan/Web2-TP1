@@ -26,7 +26,14 @@ function renderPostForm(post = undefined) {
     let isCreating = post === undefined;
 
     if (isCreating)
+    {
         post = createPost();
+        setTitle("Création");
+    }
+    else
+    {
+        setTitle("Modification");
+    }
 
     let parent = $(FORM_PARENT_ID);
     parent.empty();
@@ -49,6 +56,7 @@ function renderPostForm(post = undefined) {
                 required
                 value="${post.Title || ""}"
             />
+            <br>
             
             <!-- POST CATEGORY -->
             <label for="Category" class="form-label">Catégorie </label>
@@ -60,6 +68,7 @@ function renderPostForm(post = undefined) {
                 required
                 value="${post.Category || ""}"
             />
+            <br>
             
             <!-- POST IMAGE -->
             <label for="Image" class="form-label">Image </label>
@@ -70,6 +79,7 @@ function renderPostForm(post = undefined) {
                 imageSrc='${post.Image || "Posts2/images/no-image.png"}' 
                 waitingImage="Posts2/Loading_icon.gif">
             </div>
+            <br>
             
             <!-- POST TEXT -->
             <label for="Text" class="form-label">Texte </label>
@@ -103,8 +113,6 @@ function renderPostForm(post = undefined) {
         }
 
         showPosts();
-
-        console.log(result);
 
         await pageManager.update(false);
         pageManager.scrollToElem(result.Id);
@@ -155,7 +163,9 @@ function showPosts() {
 function hidePosts() {
     $(SCROLL_PANEL_ID).hide();
     $(CREATE_BUTTON_ID).hide();
-    $(ABORT_BUTTON_ID).hide();
+
+    $(FORM_PARENT_ID).show();
+    $(ABORT_BUTTON_ID).show();
 
     stopPeriodicRefresh();
 }
