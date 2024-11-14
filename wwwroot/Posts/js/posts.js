@@ -133,8 +133,14 @@ function renderPost(post) {
                     className: 'btn-danger'
                 }
             },
-            callback: function (result) {
-                console.log('This was logged in the callback: ' + result);
+            callback: async function (result) {
+
+                // If not confirmed, skip
+                if (!result)
+                    return;
+
+                await Posts_API.Delete(post.Id);
+                pageManager.update(false);
             }
         });
     });
