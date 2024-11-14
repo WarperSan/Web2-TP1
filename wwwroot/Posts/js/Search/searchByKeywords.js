@@ -1,17 +1,27 @@
 /* KEYWORDS */
 const KEYWORD_ID = "#search-text";
+const SEARCH_BUTTON_ID = "#doSearch";
 let keywords = undefined;
 
 /** Sets the current search keywords */
-function onSearchEnter(e) {
-    if (e.originalEvent.keyCode !== 13)
-        return;
-
-    let searchString = $(this).val().trim();
+function updateSearch()
+{
+    let searchString = $(KEYWORD_ID).val().trim();
     if (searchString === '')
         keywords = undefined;
     else
         keywords = searchString;
 
-    pageManager.update(true);
+    addWaitingLogo();
+    pageManager.reset();
 }
+
+$(KEYWORD_ID).on('keydown', function (e) {
+    if (e.originalEvent.keyCode !== 13)
+        return;
+
+    updateSearch();
+});
+$(SEARCH_BUTTON_ID).on("click", function (e) {
+   updateSearch();
+});

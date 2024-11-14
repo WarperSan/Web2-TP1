@@ -44,8 +44,6 @@ async function compileCategories() {
 
 /** Renders the given category */
 function renderCategory(category) {
-
-    console.log(category + " : " + checkedCategories[category]);
     let checked = checkedCategories[category] === true;
 
     let element = $(`
@@ -77,36 +75,4 @@ function renderCategory(category) {
     });
 
     $(CATEGORY_PARENT).append(element);
-}
-
-function updateDropDownMenu() {
-    let DDMenu = $("#DDMenu");
-    let selectClass = selectedCategory === "" ? "fa-check" : "fa-fw";
-    DDMenu.empty();
-    DDMenu.append($(`
-        <div class="dropdown-item menuItemLayout" id="allCatCmd">
-            <i class="menuIcon fa ${selectClass} mx-2"></i> Toutes les catégories
-        </div>
-        `));
-    DDMenu.append($(`<div class="dropdown-divider"></div>`));
-    categories.forEach(category => {
-        selectClass = selectedCategory === category ? "fa-check" : "fa-fw";
-        DDMenu.append($(`
-            <div class="dropdown-item menuItemLayout category" id="allCatCmd">
-                <i class="menuIcon fa ${selectClass} mx-2"></i> ${category}
-            </div>
-        `));
-    });
-    $('#allCatCmd').on("click", function () {
-        showBookmarks();
-        selectedCategory = "";
-        updateDropDownMenu();
-        pageManager.reset();
-    });
-    $('.category').on("click", function () {
-        showBookmarks();
-        selectedCategory = $(this).text().trim();
-        updateDropDownMenu();
-        pageManager.reset();
-    });
 }
