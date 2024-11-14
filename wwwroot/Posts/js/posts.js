@@ -75,7 +75,15 @@ async function renderPosts(queryString) {
         currentETag = response.ETag;
     }
 
-    if (response === null || response.data.length === 0)
+    // If error
+    if (response === null)
+    {
+        renderError("Une erreur est survenue lors du rafraîchissement!")
+        return true;
+    }
+
+    // If end of data
+    if (response.data.length === 0)
         return true;
 
     for (const post of response.data) {
@@ -141,6 +149,7 @@ function renderPost(post) {
 
                 await Posts_API.Delete(post.Id);
                 pageManager.update(false);
+                compileCategories();
             }
         });
     });

@@ -1,6 +1,6 @@
 /* CATEGORIES */
 const CATEGORY_PARENT = "#categoryDropdown";
-const CATEGORY_ADDED_DEFAULT = false;
+const CATEGORY_ADDED_DEFAULT = true;
 const CATEGORY_CHECKED_CLASS = "fa-check";
 const CATEGORY_UNCHECKED_CLASS = "fa-fw";
 
@@ -29,6 +29,13 @@ async function compileCategories() {
     else
         selectedCategories = undefined;
 
+    for (const category of loadedCategories) {
+        if (checkedCategories.hasOwnProperty(category))
+            continue;
+
+        checkedCategories[category] = CATEGORY_ADDED_DEFAULT;
+    }
+
     $(CATEGORY_PARENT).empty();
 
     for (const category of loadedCategories)
@@ -37,7 +44,9 @@ async function compileCategories() {
 
 /** Renders the given category */
 function renderCategory(category) {
-    let checked = checkedCategories[category] !== false;
+
+    console.log(category + " : " + checkedCategories[category]);
+    let checked = checkedCategories[category] === true;
 
     let element = $(`
         <div class="dropdown-item menuItemLayout category" id="allCatCmd" data-checked="${checked}" data-name="${category}">

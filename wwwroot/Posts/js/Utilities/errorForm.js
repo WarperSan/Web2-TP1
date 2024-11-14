@@ -10,6 +10,7 @@ function renderError(message) {
     let content = $(`<div>${message}</div>`);
 
     let container = $(ERROR_CONTAINER_ID);
+    container.empty();
     container.append(content);
     container.show();
 }

@@ -108,9 +108,8 @@ function renderPostForm(post = undefined) {
         showPosts();
 
         await pageManager.update(false);
-        pageManager.scrollToElem(result.Id);
-
         await compileCategories();
+        pageManager.scrollToElem(result.Id);
     });
 
     $(POST_FORM_CANCEL_ID).on("click", showPosts);
