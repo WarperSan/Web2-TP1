@@ -27,7 +27,6 @@ $(CREATE_BUTTON_ID).on("click", function () {
 });
 
 $(ABORT_BUTTON_ID).on("click", showPosts);
-$(KEYWORD_ID).on('keydown', onSearchEnter);
 
 compileCategories();
 
