@@ -76,3 +76,21 @@
 .read-more-container button {
     box-shadow: black 0 0 2px 1px;
 }
+
+/* BUTTONS */
+.post-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    flex: 1;
+}
+
+
+.post:hover #deletePost,
+.post:hover #editPost {
+    visibility: visible;
+}
+
+.post:not(:hover) #deletePost,
+.post:not(:hover) #editPost {
+    visibility: hidden;
+}

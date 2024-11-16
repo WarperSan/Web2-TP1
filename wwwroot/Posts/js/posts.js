@@ -2,7 +2,7 @@
 const SCROLL_PANEL_ID = "#scrollPanel";
 const ITEMS_PANEL_ID = "#itemsPanel";
 const CREATE_BUTTON_ID = "#createPost";
-const EDIT_BUTTON_ID = ".editPost";
+const EDIT_BUTTON_ID = "#editPost";
 const DELETE_BUTTON_ID = "#deletePost";
 const ABORT_BUTTON_ID = "#abort";
 
@@ -107,8 +107,8 @@ function renderPost(post) {
             <!-- HEADER -->
             <div class="post-header">
                 <span class="post-category">${post.Category.toUpperCase()}</span>
-                <div style="flex: 1;">
-                    <i class="cmdIcon fa-solid fa-pen editPost" title="Modifier cette nouvelle"></i>
+                <div class="post-buttons" style="flex: 1;">
+                    <i class="cmdIcon fa-solid fa-pen" id="editPost" title="Modifier cette nouvelle"></i>
                     <i class="cmdIcon fa-solid fa-x" id="deletePost" title="Effacer cette nouvelle"></i>
                 </div>
             </div>

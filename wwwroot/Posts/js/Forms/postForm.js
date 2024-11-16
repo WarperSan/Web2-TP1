@@ -42,7 +42,7 @@ function renderPostForm(post = undefined) {
             <!-- POST TITLE -->
             <label for="Title" class="form-label">Titre </label>
             <input 
-                class="form-control Alpha"
+                class="form-control"
                 name="Title" 
                 id="Title" 
                 placeholder="Titre"
